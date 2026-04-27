@@ -255,10 +255,129 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 0.5rem;
+            margin-bottom: 0.75rem;
         }
 
-        .stat-card-title {
+        /* Question Browser */
+        .q-browser-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            z-index: 2000;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem;
+            animation: qFadeIn 0.3s ease;
+        }
+        .q-browser-overlay.active { display: flex; }
+        @keyframes qFadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+        .q-browser-modal {
+            background: rgba(15, 23, 42, 0.95);
+            border: 1px solid var(--glass-border);
+            border-radius: 24px;
+            width: 100%;
+            max-width: 600px;
+            max-height: 80vh;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+        }
+
+        .q-browser-header {
+            padding: 1.25rem 1.5rem;
+            border-bottom: 1px solid var(--glass-border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(255, 255, 255, 0.02);
+        }
+
+        .q-browser-header h3 {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: #c084fc;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .q-browser-list {
+            flex: 1;
+            overflow-y: auto;
+            padding: 0.75rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .q-browser-list::-webkit-scrollbar { width: 6px; }
+        .q-browser-list::-webkit-scrollbar-thumb { background: var(--glass-border); border-radius: 10px; }
+
+        .q-browser-item {
+            padding: 0.85rem 1rem;
+            border-radius: 12px;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid transparent;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            gap: 1rem;
+            align-items: flex-start;
+        }
+
+        .q-browser-item:hover {
+            background: rgba(255, 255, 255, 0.08);
+            border-color: var(--accent-primary);
+            transform: translateX(4px);
+        }
+
+        .q-browser-item.active {
+            background: rgba(139, 92, 246, 0.15);
+            border-color: var(--accent-primary);
+            color: white;
+        }
+
+        .q-browser-item .q-num {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.85rem;
+            color: var(--accent-primary);
+            font-weight: 700;
+            min-width: 32px;
+            padding-top: 2px;
+        }
+
+        .q-browser-item .q-text {
+            font-size: 0.95rem;
+            line-height: 1.4;
+            color: #94a3b8;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .q-browser-item.active .q-text { color: white; font-weight: 600; }
+
+        .progress-text {
+            cursor: pointer;
+            transition: all 0.2s;
+            padding: 4px 8px;
+            margin: -4px -8px;
+            border-radius: 6px;
+        }
+        .progress-text:hover {
+            background: rgba(139, 92, 246, 0.15);
+            color: #c084fc;
+        }
+
+        .card-header {
             font-weight: 600;
             font-size: 1rem;
             display: flex;
@@ -294,10 +413,47 @@
             border-radius: 50%;
         }
 
-        /* Main Content */
+        .q-grade-indicator {
+            font-size: 0.7rem;
+            font-weight: 800;
+            padding: 2px 6px;
+            border-radius: 6px;
+            text-transform: uppercase;
+            flex-shrink: 0;
+            margin-left: auto;
+        }
+        .q-grade-indicator.j { background: rgba(59, 130, 246, 0.15); color: #93c5fd; border: 1px solid rgba(59, 130, 246, 0.3); }
+        .q-grade-indicator.m { background: rgba(245, 158, 11, 0.15); color: #fcd34d; border: 1px solid rgba(245, 158, 11, 0.3); }
+        .q-grade-indicator.s { background: rgba(239, 68, 68, 0.15); color: #fca5a5; border: 1px solid rgba(239, 68, 68, 0.3); }
+
+        .btn-answer-header {
+            background: rgba(139, 92, 246, 0.1);
+            border: 1px solid var(--glass-border);
+            color: white;
+            cursor: pointer;
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
+            flex-shrink: 0;
+            padding: 0;
+            margin: 0 4px;
+        }
+        .btn-answer-header:hover {
+            border-color: var(--accent-primary);
+            background: rgba(139, 92, 246, 0.2);
+            transform: scale(1.05);
+        }
+        .btn-answer-header:active {
+            transform: scale(0.95);
+        }
+
         .main-content {
-            padding: 2rem;
-            max-width: 900px;
+            padding: 1.5rem;
+            max-width: 1100px;
             margin: 0 auto;
             display: flex;
             flex-direction: column;
@@ -305,106 +461,232 @@
             min-height: 100vh;
             width: 100%;
             box-sizing: border-box;
+            padding-top: 11rem;
         }
 
-        .header-bar {
-            width: 100%;
+        /* ── World-Class Navbar ── */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: rgba(10, 15, 28, 0.8);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            z-index: 1000;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 0 10px 40px -10px rgba(0, 0, 0, 0.5);
+        }
+
+        .navbar-inner {
+            height: 70px;
+            padding: 0 2.5rem;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 2rem;
-            z-index: 10;
-            flex-wrap: wrap;
-            gap: 1rem;
+            max-width: 1400px;
+            width: 100%;
+            margin: 0 auto;
+            box-sizing: border-box;
         }
 
-        /* Language Switcher */
-        .lang-switcher {
+        .logo {
             display: flex;
-            background: var(--glass-bg);
-            border: 1px solid var(--glass-border);
-            border-radius: 12px;
-            padding: 4px;
-            gap: 4px;
-            backdrop-filter: blur(10px);
+            align-items: center;
+            gap: 14px;
+            text-decoration: none;
+            transition: transform 0.2s;
         }
+        .logo:hover { transform: scale(1.02); }
 
-        .lang-btn {
-            padding: 8px 16px;
-            border-radius: 8px;
-            border: none;
-            background: transparent;
-            color: var(--text-muted);
-            font-family: inherit;
-            font-size: 0.85rem;
-            font-weight: 700;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-
-        .lang-btn.active {
-            background: var(--accent-primary);
-            color: white;
-            box-shadow: 0 4px 12px var(--accent-glow);
-        }
-
-        .lang-btn:hover:not(.active) {
-            background: rgba(255, 255, 255, 0.1);
-            color: white;
-        }
-
-        .menu-btn {
-            background: var(--glass-bg);
-            border: 1px solid var(--glass-border);
-            color: white;
-            cursor: pointer;
-            padding: 12px 20px;
+        .logo-icon {
+            width: 38px;
+            height: 38px;
+            background: linear-gradient(135deg, #8b5cf6, #6366f1);
             border-radius: 12px;
             display: flex;
             align-items: center;
-            gap: 10px;
-            font-family: inherit;
-            font-weight: 600;
-            transition: all 0.3s;
-            backdrop-filter: blur(10px);
+            justify-content: center;
+            font-size: 0.9rem;
+            font-weight: 800;
+            color: white;
+            box-shadow: 0 0 20px rgba(139, 92, 246, 0.3);
         }
 
-        .menu-btn:hover {
-            background: rgba(255, 255, 255, 0.1);
-            border-color: var(--accent-primary);
+        .logo-text {
+            font-weight: 800;
+            font-size: 1.3rem;
+            letter-spacing: -0.8px;
+            color: white;
+            background: linear-gradient(to right, #fff, #94a3b8);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
 
-        .controls-area {
+        .nav-right {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+        }
+
+        /* Segmented Control Switcher */
+        .lang-switcher {
+            display: flex;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 99px;
+            padding: 4px;
+            height: 40px;
+            box-sizing: border-box;
+        }
+
+        .lang-btn {
+            padding: 0 16px;
+            border-radius: 99px;
+            border: none;
+            background: transparent;
+            color: var(--text-muted);
+            font-family: 'Outfit', sans-serif;
+            font-size: 0.75rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            letter-spacing: 1px;
+        }
+
+        .lang-btn.active {
+            background: white;
+            color: #0f172a;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+        }
+
+        .lang-btn:hover:not(.active) { color: white; }
+
+        /* Filter Controls */
+        .filter-bar {
+            height: 64px;
+            background: rgba(255, 255, 255, 0.01);
+            border-top: 1px solid rgba(255, 255, 255, 0.03);
+            display: flex;
+            align-items: center;
+            padding: 0 2.5rem;
+        }
+
+        .filter-group {
             display: flex;
             gap: 1rem;
+            max-width: 650px; /* Constrain width for premium grouping */
+            width: 100%;
+            margin: 0 auto;
+            align-items: center;
         }
 
-        select {
+        .select-pill {
+            position: relative;
+            flex: 1;
+            height: 42px;
+            min-width: 0;
+        }
+
+        .select-pill select {
+            height: 100%;
+            width: 100%;
             appearance: none;
-            background: var(--glass-bg);
-            border: 1px solid var(--glass-border);
-            color: white;
-            padding: 12px 40px 12px 16px;
-            border-radius: 12px;
+            border-radius: 14px;
+            padding: 0 40px 0 42px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            color: var(--text-main);
             font-family: inherit;
-            font-size: 0.9rem;
             cursor: pointer;
-            backdrop-filter: blur(10px);
-            transition: all 0.3s;
-            background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
-            background-repeat: no-repeat;
-            background-position: right 1rem center;
-            background-size: 1em;
+            transition: all 0.2s;
             outline: none;
         }
 
-        select:hover {
-            border-color: var(--accent-primary);
+        .select-pill select option {
+            background-color: #0f172a !important;
+            color: white !important;
         }
 
-        select option {
-            background: #1e293b;
+        .select-pill select:hover {
+            background: rgba(255, 255, 255, 0.07);
+            border-color: rgba(255, 255, 255, 0.15);
+        }
+
+        .select-pill .select-icon {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--accent-primary);
+            pointer-events: none;
+            display: flex;
+            align-items: center;
+            opacity: 0.8;
+        }
+
+        .random-btn-pill {
+            width: 42px;
+            height: 42px;
+            border-radius: 14px;
+            background: rgba(139, 92, 246, 0.15);
+            border: 1px solid rgba(139, 92, 246, 0.3);
+            color: var(--accent-primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            flex-shrink: 0;
+        }
+
+        .random-btn-pill:hover {
+            background: var(--accent-primary);
             color: white;
+            transform: scale(1.05) rotate(10deg);
+            box-shadow: 0 0 20px var(--accent-glow);
+        }
+
+        .icon-btn {
+            width: 42px;
+            height: 42px;
+            border-radius: 12px;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .icon-btn:hover {
+            border-color: var(--accent-primary);
+            background: rgba(255, 255, 255, 0.06);
+            transform: translateY(-1px);
+        }
+
+        @media (min-width: 900px) {
+            .header-bar {
+                flex-direction: row;
+                justify-content: space-between;
+                align-items: center;
+            }
+            .top-row {
+                width: auto;
+            }
+            .controls-area {
+                width: auto;
+                min-width: 450px;
+            }
         }
 
         /* Flashcard */
@@ -566,68 +848,79 @@
             display: block;
         }
 
-        .action-buttons {
+        /* ── Action Bar ── */
+        .flashcard-actions {
             display: flex;
-            justify-content: space-between;
-            align-items: center;
-            gap: 1rem;
+            gap: 0.75rem;
             margin-top: auto;
+            padding-top: 1.5rem;
+            width: 100%;
         }
 
-        .nav-btn-group {
-            display: flex;
-            gap: 0.5rem;
-        }
-
-        .btn {
-            padding: 12px 24px;
-            border: none;
+        .btn-nav-round {
+            width: 48px;
+            height: 48px;
             border-radius: 14px;
-            font-family: inherit;
-            font-size: 0.95rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s;
+            padding: 0 !important;
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            color: var(--text-muted);
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .btn-nav-round:hover {
+            color: white;
+            border-color: var(--accent-primary);
+            background: rgba(139, 92, 246, 0.1);
+            transform: translateY(-2px);
+        }
+
+        .btn-nav-round:active {
+            transform: translateY(0);
+        }
+
+        .btn-response {
+            flex: 1;
+            height: 48px;
+            border-radius: 14px;
+            font-size: 0.85rem;
+            font-weight: 700;
             display: flex;
             align-items: center;
             justify-content: center;
             gap: 8px;
+            cursor: pointer;
+            transition: all 0.2s;
+            border: 1px solid transparent;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
         }
 
-        .btn-primary {
-            background: linear-gradient(135deg, var(--accent-primary), #6366f1);
-            color: white;
-            box-shadow: 0 10px 20px -5px var(--accent-glow);
-            flex: 2;
+        .btn-dont-know {
+            background: rgba(239, 68, 68, 0.08) !important;
+            border: 1px solid rgba(239, 68, 68, 0.2) !important;
+            color: #fca5a5 !important;
         }
-
-        .btn-primary:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 15px 30px -5px var(--accent-glow);
-        }
-
-        .btn-secondary {
-            background: var(--glass-bg);
-            color: white;
-            border: 1px solid var(--glass-border);
-        }
-
-        .btn-secondary:hover {
-            background: rgba(255, 255, 255, 0.1);
-            border-color: rgba(255, 255, 255, 0.3);
+        .btn-dont-know:hover {
+            background: rgba(239, 68, 68, 0.15) !important;
+            border-color: rgba(239, 68, 68, 0.4) !important;
             transform: translateY(-2px);
         }
 
-        /* ── Know / Don't Know buttons ── */
-        .know-buttons {
-            display: flex;
-            gap: 0.75rem;
-            margin-top: 0.75rem;
+        .btn-know {
+            background: rgba(34, 197, 94, 0.08) !important;
+            border: 1px solid rgba(34, 197, 94, 0.2) !important;
+            color: #86efac !important;
         }
-        .btn-know, .btn-dont-know {
-            flex: 1;
-            display: flex;
-            align-items: center;
+        .btn-know:hover {
+            background: rgba(34, 197, 94, 0.15) !important;
+            border-color: rgba(34, 197, 94, 0.4) !important;
+            transform: translateY(-2px);
+        }
             justify-content: center;
             gap: 8px;
             padding: 12px 16px;
@@ -785,44 +1078,25 @@
         /* ============================================
            MOBILE STYLES
         ============================================ */
-        @media (max-width: 640px) {
-
-            .main-content {
-                padding: 1rem 1rem;
+            .navbar-inner {
+                padding: 0 1rem;
             }
 
-            .header-bar {
-                flex-direction: column;
-                align-items: stretch;
-                gap: 0.75rem;
-                margin-bottom: 1.25rem;
+            .logo-text {
+                display: none;
             }
 
-            .menu-btn {
-                width: 100%;
-                justify-content: center;
-                padding: 12px 16px;
-                font-size: 0.95rem;
+            .filter-bar {
+                padding: 0 1rem;
             }
 
-            .controls-area {
-                width: 100%;
-                display: flex;
+            .filter-group {
                 gap: 0.5rem;
             }
 
-            .controls-area select {
-                flex: 1;
-                min-width: 0;
-                padding: 10px 30px 10px 10px;
-                font-size: 0.8rem;
-            }
-
-            .controls-area .btn-secondary {
-                flex-shrink: 0;
-                width: 42px;
-                padding: 0;
-                justify-content: center;
+            .select-pill select {
+                padding: 0 25px 0 32px;
+                font-size: 0.75rem;
             }
 
             .flashcard {
@@ -881,23 +1155,21 @@
                 margin-bottom: 0.35rem;
             }
 
-            .action-buttons {
-                flex-direction: column;
-                gap: 0.6rem;
-                margin-top: 1rem;
-            }
-
-            .nav-btn-group {
-                width: 100%;
+            .flashcard-actions {
                 gap: 0.5rem;
-                display: flex;
             }
 
-            .nav-btn-group .btn {
-                flex: 1;
-                padding: 13px;
-                font-size: 0.9rem;
+            .btn-nav-round {
+                width: 44px;
+                height: 44px;
             }
+
+            .btn-response {
+                height: 44px;
+                font-size: 0.75rem;
+                padding: 0 4px;
+            }
+
 
             .btn-primary {
                 width: 100%;
@@ -1049,33 +1321,55 @@
         <div class="stats-list" id="stats-container"></div>
     </div>
 
-    <div class="main-content">
-        <div class="header-bar">
-            <button class="menu-btn" onclick="toggleMenu()">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
-                <span>Stats & Analytics</span>
-            </button>
-
-            <div class="controls-area">
+    <nav class="navbar">
+        <div class="navbar-inner">
+            <div class="nav-left">
+                <div class="logo">
+                    <div class="logo-icon">DS</div>
+                    <span class="logo-text">Interview Mastery</span>
+                </div>
+            </div>
+            <div class="nav-right">
                 <div class="lang-switcher">
                     <button id="lang-ru" class="lang-btn active" onclick="setLanguage('ru')">RU</button>
                     <button id="lang-en" class="lang-btn" onclick="setLanguage('en')">EN</button>
                 </div>
-
-                <select id="cat" onchange="filterQuestions()">
-                    <option value="all">All Topics</option>
-                </select>
-                <select id="grade" onchange="filterQuestions()">
-                    <option value="all">All Grades</option>
-                    <option value="junior">Junior</option>
-                    <option value="middle">Middle</option>
-                    <option value="senior">Senior</option>
-                </select>
-                <button class="btn btn-secondary" style="padding: 12px; border-radius: 12px;" onclick="randomQuestion()" title="Pick random">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><circle cx="8.5" cy="8.5" r="1.5"></circle><circle cx="15.5" cy="15.5" r="1.5"></circle><circle cx="15.5" cy="8.5" r="1.5"></circle><circle cx="8.5" cy="15.5" r="1.5"></circle><circle cx="12" cy="12" r="1.5"></circle></svg>
+                <button class="icon-btn" onclick="toggleMenu()" title="Statistics & Categories">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
                 </button>
             </div>
         </div>
+        <div class="filter-bar">
+            <div class="filter-group">
+                <div class="select-pill">
+                    <div class="select-icon">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
+                    </div>
+                    <select id="cat" onchange="filterQuestions()">
+                        <option value="all">All Topics</option>
+                    </select>
+                </div>
+
+                <div class="select-pill">
+                    <div class="select-icon">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20V10M18 20V4M6 20v-4"></path></svg>
+                    </div>
+                    <select id="grade" onchange="filterQuestions()">
+                        <option value="all">All Grades</option>
+                        <option value="junior">Junior</option>
+                        <option value="middle">Middle</option>
+                        <option value="senior">Senior</option>
+                    </select>
+                </div>
+                
+                <button class="random-btn-pill" onclick="randomQuestion()" title="Randomizer">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><circle cx="8.5" cy="8.5" r="1.5"></circle><circle cx="15.5" cy="15.5" r="1.5"></circle><circle cx="15.5" cy="8.5" r="1.5"></circle><circle cx="8.5" cy="15.5" r="1.5"></circle><circle cx="12" cy="12" r="1.5"></circle></svg>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <div class="main-content">
 
         <div class="card-container">
             <div class="flashcard" id="flashcard">
@@ -1084,7 +1378,10 @@
                         <span class="badge badge-cat" id="cat-badge">Category</span>
                         <span class="badge badge-grade" id="grade-badge">Grade</span>
                     </div>
-                    <div class="progress-text" id="counter">0 / 0</div>
+                    <div class="progress-text" id="counter" onclick="openQuestionBrowser()" title="Browse questions">0 / 0</div>
+                    <button class="btn-answer-header" onclick="toggleAnswer()" id="btn-answer" title="Toggle Answer">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
+                    </button>
                 </div>
 
                 <div class="question-area">
@@ -1093,32 +1390,36 @@
 
                 <div class="answer-area" id="a"></div>
 
-                <div class="action-buttons">
-                    <div class="nav-btn-group">
-                        <button class="btn btn-secondary" onclick="previousQuestion()">
-                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
-                        </button>
-                        <button class="btn btn-secondary" onclick="nextQuestion()">
-                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
-                        </button>
-                    </div>
+                <div class="flashcard-actions">
+                    <button class="btn-nav-round" onclick="previousQuestion()" title="Previous">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
+                    </button>
 
-                    <button class="btn btn-primary" onclick="toggleAnswer()" id="btn-answer">
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
-                        <span>Show Answer</span>
+                    <button class="btn-response btn-dont-know" onclick="markQuestion(false)">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="15" y1="9" x2="9" y2="15"></line><line x1="9" y1="9" x2="15" y2="15"></line></svg>
+                        <span class="btn-text">Don't know</span>
+                    </button>
+
+                    <button class="btn-response btn-know" onclick="markQuestion(true)">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                        <span class="btn-text">I know!</span>
+                    </button>
+
+                    <button class="btn-nav-round" onclick="nextQuestion()" title="Next">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
                     </button>
                 </div>
+            </div>
 
-                <!-- Know / Don't Know buttons (shown after answer revealed) -->
-                <div class="know-buttons" id="know-buttons" style="display:none">
-                    <button class="btn btn-dont-know" onclick="markQuestion(false)">
-                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="15" y1="9" x2="9" y2="15"></line><line x1="9" y1="9" x2="15" y2="15"></line></svg>
-                        <span>Don't know</span>
-                    </button>
-                    <button class="btn btn-know" onclick="markQuestion(true)">
-                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
-                        <span>I know!</span>
-                    </button>
+            <div id="q-browser-overlay" class="q-browser-overlay" onclick="if(event.target===this) closeQuestionBrowser()">
+                <div class="q-browser-modal">
+                    <div class="q-browser-header">
+                        <h3 id="browser-title">Browse Questions</h3>
+                        <button class="close-menu" onclick="closeQuestionBrowser()">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+                        </button>
+                    </div>
+                    <div class="q-browser-list" id="q-browser-list"></div>
                 </div>
             </div>
             
@@ -1169,7 +1470,8 @@
                 noQuestions: 'Вопросы не найдены',
                 tryFilters: 'Попробуйте изменить фильтры',
                 totalQuestions: 'Всего вопросов',
-                totalSqlTasks: 'Всего SQL задач'
+                totalSqlTasks: 'Всего SQL задач',
+                browseTitle: 'Выбор вопроса'
             },
             en: {
                 showAnswer: 'Show Answer',
@@ -1182,7 +1484,8 @@
                 noQuestions: 'No questions found',
                 tryFilters: 'Try matching different filters',
                 totalQuestions: 'Total Questions',
-                totalSqlTasks: 'Total SQL Tasks'
+                totalSqlTasks: 'Total SQL Tasks',
+                browseTitle: 'Select Question'
             }
         };
 
@@ -1466,17 +1769,10 @@
             var gradeOpt = document.querySelector('#grade option[value="all"]');
             if (gradeOpt) gradeOpt.textContent = t.allGrades;
             
-            var btnAnswer = document.getElementById('btn-answer');
-            if (btnAnswer) {
-                var isShowing = document.getElementById('a').classList.contains('show');
-                var span = btnAnswer.querySelector('span');
-                if (span) span.textContent = isShowing ? t.hideAnswer : t.showAnswer;
-            }
-            
-            var btnDontKnow = document.querySelector('.btn-dont-know span');
+            var btnDontKnow = document.querySelector('.btn-dont-know .btn-text');
             if (btnDontKnow) btnDontKnow.textContent = t.dontKnow;
             
-            var btnKnow = document.querySelector('.btn-know span');
+            var btnKnow = document.querySelector('.btn-know .btn-text');
             if (btnKnow) btnKnow.textContent = t.iKnow;
             
             var emptyH2 = document.querySelector('#empty-state h2');
@@ -1487,14 +1783,60 @@
             
             var globalLabel = document.getElementById('global-label');
             if (globalLabel) globalLabel.textContent = (appMode === 'sqltasks') ? t.totalSqlTasks : t.totalQuestions;
+
+            var browserTitle = document.getElementById('browser-title');
+            if (browserTitle) browserTitle.textContent = t.browseTitle;
+        }
+
+        function openQuestionBrowser() {
+            var overlay = document.getElementById('q-browser-overlay');
+            var list = document.getElementById('q-browser-list');
+            list.innerHTML = '';
+
+            filtered.forEach(function(q, index) {
+                var item = document.createElement('div');
+                item.className = 'q-browser-item' + (index === currentIndex ? ' active' : '');
+                
+                var rawQuestion = q.question[currentLang] || q.question['ru'];
+                // Simple markdown strip and truncation
+                var cleanText = rawQuestion.replace(/[#*`]/g, '').substring(0, 120).trim();
+                if (rawQuestion.length > 120) cleanText += '...';
+
+                var gradeHtml = '';
+                if (q.grade === 'junior') gradeHtml = '<span class="q-grade-indicator j">J</span>';
+                else if (q.grade === 'middle') gradeHtml = '<span class="q-grade-indicator m">M</span>';
+                else if (q.grade === 'senior') gradeHtml = '<span class="q-grade-indicator s">S</span>';
+
+                item.innerHTML = '<span class="q-num">' + (index + 1) + '</span>' +
+                                 '<span class="q-text">' + cleanText + '</span>' +
+                                 gradeHtml;
+                
+                item.onclick = function() { jumpToQuestion(index); };
+                list.appendChild(item);
+                
+                if (index === currentIndex) {
+                    setTimeout(function() { item.scrollIntoView({ block: 'center', behavior: 'smooth' }); }, 100);
+                }
+            });
+
+            overlay.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeQuestionBrowser() {
+            document.getElementById('q-browser-overlay').classList.remove('active');
+            document.body.style.overflow = '';
+        }
+
+        function jumpToQuestion(index) {
+            currentIndex = index;
+            animateTransition(show);
+            closeQuestionBrowser();
         }
 
         function show() {
             var emptyState = document.getElementById('empty-state');
             var flashcard  = document.getElementById('flashcard');
-            var knowBtns   = document.getElementById('know-buttons');
-
-            knowBtns.style.display = 'none';
 
             if (!filtered.length) {
                 flashcard.style.display = 'none';
@@ -1573,7 +1915,9 @@
 
             var t = i18n[currentLang];
             var isShowing = ansElement.classList.contains('show');
-            document.getElementById('btn-answer').innerHTML = '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg><span>' + (isShowing ? t.hideAnswer : t.showAnswer) + '</span>';
+            document.getElementById('btn-answer').innerHTML = isShowing ? 
+                '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path><line x1="1" y1="1" x2="23" y2="23"></line></svg>' :
+                '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>';
             document.getElementById('counter').textContent = (currentIndex + 1) + ' / ' + filtered.length;
             document.getElementById('cat-badge').textContent = q.category;
             
@@ -1609,23 +1953,18 @@
             }
             
             // Show the next/know buttons
-            var knowBtns = document.getElementById('know-buttons');
-            knowBtns.style.display = 'flex';
+            // (Know buttons are now always visible, but we might want to highlight choice later)
         }
 
         function toggleAnswer() {
             var ans = document.getElementById('a');
             var btn = document.getElementById('btn-answer');
-            var knowBtns = document.getElementById('know-buttons');
-            var t = i18n[currentLang];
             
             ans.classList.toggle('show');
             if (ans.classList.contains('show')) {
-                btn.innerHTML = '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path><line x1="1" y1="1" x2="23" y2="23"></line></svg><span>' + t.hideAnswer + '</span>';
-                knowBtns.style.display = 'flex';
+                btn.innerHTML = '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path><line x1="1" y1="1" x2="23" y2="23"></line></svg>';
             } else {
-                btn.innerHTML = '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg><span>' + t.showAnswer + '</span>';
-                knowBtns.style.display = 'none';
+                btn.innerHTML = '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>';
             }
         }
 
