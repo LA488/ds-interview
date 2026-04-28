@@ -610,27 +610,73 @@
         }
 
         .mode-btn svg {
-            width: 16px;
-            height: 16px;
+            width: 18px;
+            height: 18px;
         }
 
-        /* Filter Controls */
-        .filter-bar {
-            height: 64px;
-            background: rgba(255, 255, 255, 0.01);
-            border-top: 1px solid rgba(255, 255, 255, 0.03);
+        /* Sidebar Control Center */
+        .sidebar-controls {
             display: flex;
-            align-items: center;
-            padding: 0 2.5rem;
+            flex-direction: column;
+            gap: 1.25rem;
+            margin-bottom: 1.5rem;
         }
 
-        .filter-group {
+        .sidebar-control-group {
             display: flex;
-            gap: 1rem;
-            max-width: 650px; /* Constrain width for premium grouping */
+            flex-direction: column;
+            gap: 0.6rem;
+        }
+
+        .sidebar-control-group label {
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--text-muted);
+            padding-left: 4px;
+        }
+
+        .sidebar-lang {
+            width: 100% !important;
+            height: 44px !important;
+        }
+
+        .sidebar-select {
+            width: 100% !important;
+            height: 48px !important;
+        }
+
+        .sidebar-random-btn {
+            margin-top: 0.5rem;
             width: 100%;
-            margin: 0 auto;
+            height: 48px;
+            background: linear-gradient(135deg, rgba(139, 92, 246, 0.2), rgba(99, 102, 241, 0.2));
+            border: 1px solid rgba(139, 92, 246, 0.4);
+            border-radius: 14px;
+            color: var(--accent-primary);
+            font-weight: 700;
+            font-size: 0.9rem;
+            display: flex;
             align-items: center;
+            justify-content: center;
+            gap: 10px;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            font-family: 'Outfit', sans-serif;
+        }
+
+        .sidebar-random-btn:hover {
+            background: var(--accent-primary);
+            color: white;
+            box-shadow: 0 0 20px var(--accent-glow);
+            transform: translateY(-2px);
+        }
+
+        .sidebar-divider {
+            height: 1px;
+            background: rgba(255, 255, 255, 0.05);
+            margin: 1.5rem -2rem;
         }
 
         .select-pill {
@@ -1411,13 +1457,58 @@
             </div>
             <button class="btn-reset" onclick="resetProgress()">&#8635; Reset progress</button>
         </div>
-        <div class="sidebar-section-title">Filter by Category</div>
+        <div class="sidebar-section-title" id="sidebar-settings-title">Control Center</div>
+        <div class="sidebar-controls">
+            <div class="sidebar-control-group">
+                <label id="sidebar-lang-label">Language</label>
+                <div class="lang-switcher sidebar-lang">
+                    <button id="lang-ru" class="lang-btn active" onclick="setLanguage('ru')">RU</button>
+                    <button id="lang-en" class="lang-btn" onclick="setLanguage('en')">EN</button>
+                </div>
+            </div>
+
+            <div class="sidebar-control-group">
+                <label id="sidebar-topic-label">Topic</label>
+                <div class="select-pill sidebar-select">
+                    <div class="select-icon">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
+                    </div>
+                    <select id="cat" onchange="filterQuestions()">
+                        <option value="all">All Topics</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="sidebar-control-group">
+                <label id="sidebar-level-label">Grade Level</label>
+                <div class="select-pill sidebar-select">
+                    <div class="select-icon">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20V10M18 20V4M6 20v-4"></path></svg>
+                    </div>
+                    <select id="grade" onchange="filterQuestions()">
+                        <option value="all">All Grades</option>
+                        <option value="junior">Junior</option>
+                        <option value="middle">Middle</option>
+                        <option value="senior">Senior</option>
+                    </select>
+                </div>
+            </div>
+
+            <button class="sidebar-random-btn" onclick="randomQuestion(); toggleMenu();">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><circle cx="8.5" cy="8.5" r="1.5"></circle><circle cx="15.5" cy="15.5" r="1.5"></circle><circle cx="15.5" cy="8.5" r="1.5"></circle><circle cx="8.5" cy="15.5" r="1.5"></circle><circle cx="12" cy="12" r="1.5"></circle></svg>
+                <span id="sidebar-random-text">Random Question</span>
+            </button>
+        </div>
+
+        <div class="sidebar-divider"></div>
+
+        <div class="sidebar-section-title" id="sidebar-filter-title">Filter by Category</div>
         <div class="cat-check-actions">
-            <button class="cat-check-btn" onclick="selectAllCats(true)">All</button>
-            <button class="cat-check-btn" onclick="selectAllCats(false)">None</button>
+            <button class="cat-check-btn" onclick="selectAllCats(true)" id="btn-all">All</button>
+            <button class="cat-check-btn" onclick="selectAllCats(false)" id="btn-none">None</button>
         </div>
         <div class="cat-checklist" id="cat-checklist"></div>
-        <div class="sidebar-section-title" style="margin-top:1.5rem">Stats by Category</div>
+        <div class="sidebar-section-title" style="margin-top:1.5rem" id="sidebar-stats-title">Stats by Category</div>
         <div class="stats-list" id="stats-container"></div>
     </div>
 
@@ -1452,40 +1543,8 @@
             </div>
 
             <div class="nav-right">
-                <div class="lang-switcher">
-                    <button id="lang-ru" class="lang-btn active" onclick="setLanguage('ru')">RU</button>
-                    <button id="lang-en" class="lang-btn" onclick="setLanguage('en')">EN</button>
-                </div>
-                <button class="icon-btn" onclick="toggleMenu()" title="Statistics & Categories">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
-                </button>
-            </div>
-        </div>
-        <div class="filter-bar">
-            <div class="filter-group">
-                <div class="select-pill">
-                    <div class="select-icon">
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
-                    </div>
-                    <select id="cat" onchange="filterQuestions()">
-                        <option value="all">All Topics</option>
-                    </select>
-                </div>
-
-                <div class="select-pill">
-                    <div class="select-icon">
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20V10M18 20V4M6 20v-4"></path></svg>
-                    </div>
-                    <select id="grade" onchange="filterQuestions()">
-                        <option value="all">All Grades</option>
-                        <option value="junior">Junior</option>
-                        <option value="middle">Middle</option>
-                        <option value="senior">Senior</option>
-                    </select>
-                </div>
-                
-                <button class="random-btn-pill" onclick="randomQuestion()" title="Randomizer">
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><circle cx="8.5" cy="8.5" r="1.5"></circle><circle cx="15.5" cy="15.5" r="1.5"></circle><circle cx="15.5" cy="8.5" r="1.5"></circle><circle cx="8.5" cy="15.5" r="1.5"></circle><circle cx="12" cy="12" r="1.5"></circle></svg>
+                <button class="icon-btn" onclick="toggleMenu()" title="Control Center & Stats">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
                 </button>
             </div>
         </div>
@@ -28393,7 +28452,7 @@
             ru: {
                 showAnswer: 'Показать ответ',
                 hideAnswer: 'Скрыть ответ',
-                statsFilters: 'Статистика и фильтры',
+                statsFilters: 'Центр управления',
                 allTopics: 'Все темы',
                 allGrades: 'Все уровни',
                 dontKnow: 'Не знаю',
@@ -28404,12 +28463,21 @@
                 totalSqlTasks: 'Всего SQL задач',
                 browseTitle: 'Выбор вопроса',
                 modeQuestions: 'Вопросы',
-                modeSqlTasks: 'SQL Задачи'
+                modeSqlTasks: 'SQL Задачи',
+                controlCenter: 'Центр управления',
+                topic: 'Тема',
+                gradeLevel: 'Уровень',
+                language: 'Язык',
+                randomQuestion: 'Случайный вопрос',
+                all: 'Все',
+                none: 'Никто',
+                statsByCategory: 'Статистика по темам',
+                filterByCategory: 'Фильтр по категориям'
             },
             en: {
                 showAnswer: 'Show Answer',
                 hideAnswer: 'Hide Answer',
-                statsFilters: 'Stats & Filters',
+                statsFilters: 'Control Center',
                 allTopics: 'All Topics',
                 allGrades: 'All Grades',
                 dontKnow: "Don't know",
@@ -28420,7 +28488,16 @@
                 totalSqlTasks: 'Total SQL Tasks',
                 browseTitle: 'Select Question',
                 modeQuestions: 'Questions',
-                modeSqlTasks: 'SQL Tasks'
+                modeSqlTasks: 'SQL Tasks',
+                controlCenter: 'Control Center',
+                topic: 'Topic',
+                gradeLevel: 'Grade Level',
+                language: 'Language',
+                randomQuestion: 'Random Question',
+                all: 'All',
+                none: 'None',
+                statsByCategory: 'Stats by Category',
+                filterByCategory: 'Filter by Category'
             }
         };
 
@@ -28698,8 +28775,8 @@
 
         function updateUIStrings() {
             var t = i18n[currentLang];
-            var menuBtn = document.querySelector('.menu-btn span');
-            if (menuBtn) menuBtn.textContent = t.statsFilters;
+            var iconBtn = document.querySelector('.icon-btn');
+            if (iconBtn) iconBtn.title = t.controlCenter;
             
             var catOpt = document.querySelector('#cat option[value="all"]');
             if (catOpt) catOpt.textContent = t.allTopics;
@@ -28719,8 +28796,39 @@
             var emptyP = document.querySelector('#empty-state p');
             if (emptyP) emptyP.textContent = t.tryFilters;
             
+            var resetBtn = document.querySelector('.btn-reset');
+            if (resetBtn) resetBtn.innerHTML = '&#8635; ' + (currentLang === 'ru' ? 'Сбросить прогресс' : 'Reset progress');
+
             var globalLabel = document.getElementById('global-label');
-            if (globalLabel) globalLabel.textContent = (appMode === 'sqltasks') ? t.totalSqlTasks : t.totalQuestions;
+            if (globalLabel) globalLabel.textContent = appMode === 'sqltasks' ? t.totalSqlTasks : t.totalQuestions;
+
+            // Sidebar specific translations
+            var sideTitle = document.getElementById('sidebar-settings-title');
+            if (sideTitle) sideTitle.textContent = t.controlCenter;
+            
+            var sideLang = document.getElementById('sidebar-lang-label');
+            if (sideLang) sideLang.textContent = t.language;
+            
+            var sideTopic = document.getElementById('sidebar-topic-label');
+            if (sideTopic) sideTopic.textContent = t.topic;
+            
+            var sideLevel = document.getElementById('sidebar-level-label');
+            if (sideLevel) sideLevel.textContent = t.gradeLevel;
+            
+            var sideRandom = document.getElementById('sidebar-random-text');
+            if (sideRandom) sideRandom.textContent = t.randomQuestion;
+            
+            var sideFilter = document.getElementById('sidebar-filter-title');
+            if (sideFilter) sideFilter.textContent = t.filterByCategory;
+            
+            var sideStats = document.getElementById('sidebar-stats-title');
+            if (sideStats) sideStats.textContent = t.statsByCategory;
+            
+            var btnAll = document.getElementById('btn-all');
+            if (btnAll) btnAll.textContent = t.all;
+            
+            var btnNone = document.getElementById('btn-none');
+            if (btnNone) btnNone.textContent = t.none;
 
             var browserTitle = document.getElementById('browser-title');
             if (browserTitle) browserTitle.textContent = t.browseTitle;
