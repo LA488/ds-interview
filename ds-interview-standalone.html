@@ -146,60 +146,36 @@
             visibility: visible;
         }
 
-        /* Sidebar / Drawer Redesign */
+        /* Sidebar / Drawer */
         .sidebar {
             position: fixed;
             top: 0;
             left: 0;
-            width: 350px;
+            width: 320px;
             height: 100vh;
-            background: linear-gradient(180deg, #0f172a 0%, #020617 100%);
-            border-right: 1px solid rgba(255, 255, 255, 0.1);
-            padding: 2.5rem 1.5rem;
+            background: rgba(15, 23, 42, 0.97);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-right: 1px solid var(--glass-border);
+            padding: 2rem;
             display: flex;
             flex-direction: column;
             z-index: 3000;
-            transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+            transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
             overflow-y: auto;
             transform: translateX(-110%);
-            scrollbar-width: thin;
-            scrollbar-color: rgba(255, 255, 255, 0.1) transparent;
         }
 
-        .sidebar.active { transform: translateX(0); }
-
-        .sidebar::-webkit-scrollbar { width: 4px; }
-        .sidebar::-webkit-scrollbar-thumb { background: rgba(255, 255, 255, 0.1); border-radius: 10px; }
-
-        .total-stats {
-            background: linear-gradient(135deg, rgba(99, 102, 241, 0.05), rgba(139, 92, 246, 0.1));
-            border: 1px solid rgba(139, 92, 246, 0.2);
-            border-radius: 28px;
-            padding: 2.5rem 1.5rem;
-            text-align: center;
-            margin-bottom: 2.5rem;
-            position: relative;
-            overflow: hidden;
-            box-shadow: inset 0 0 40px rgba(139, 92, 246, 0.05);
+        .sidebar.active {
+            transform: translateX(0);
         }
 
-        .total-stats .number {
-            font-size: 3.5rem;
-            font-weight: 900;
-            color: white;
-            line-height: 1;
-            margin-bottom: 0.75rem;
-            letter-spacing: -2px;
-            text-shadow: 0 0 40px rgba(139, 92, 246, 0.6);
+        .sidebar::-webkit-scrollbar {
+            width: 6px;
         }
-
-        .total-stats .label {
-            font-size: 0.65rem;
-            text-transform: uppercase;
-            letter-spacing: 0.25em;
-            color: var(--text-muted);
-            font-weight: 800;
-            opacity: 0.8;
+        .sidebar::-webkit-scrollbar-thumb {
+            background: var(--glass-border);
+            border-radius: 10px;
         }
 
         .sidebar-header {
@@ -526,18 +502,17 @@
         .logo:hover { transform: scale(1.02); }
 
         .logo-icon {
-            width: 42px;
-            height: 42px;
+            width: 38px;
+            height: 38px;
+            background: linear-gradient(135deg, #8b5cf6, #6366f1);
+            border-radius: 12px;
             display: flex;
             align-items: center;
             justify-content: center;
-            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
-        .logo-icon svg {
-            width: 100%;
-            height: 100%;
-            filter: drop-shadow(0 0 10px rgba(139, 92, 246, 0.3));
+            font-size: 0.9rem;
+            font-weight: 800;
+            color: white;
+            box-shadow: 0 0 20px rgba(139, 92, 246, 0.3);
         }
 
         .logo-text {
@@ -574,7 +549,7 @@
             background: transparent;
             color: var(--text-muted);
             font-family: 'Outfit', sans-serif;
-            font-size: 0.85rem;
+            font-size: 0.75rem;
             font-weight: 700;
             cursor: pointer;
             transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
@@ -613,9 +588,6 @@
             border: none;
             background: transparent;
             color: var(--text-muted);
-            font-family: 'Outfit', sans-serif;
-            font-size: 0.9rem;
-            font-weight: 700;
             cursor: pointer;
             transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
             display: flex;
@@ -634,130 +606,27 @@
         }
 
         .mode-btn svg {
-            width: 18px;
-            height: 18px;
+            width: 16px;
+            height: 16px;
         }
 
-        /* Sidebar Control Center Redesign */
-        .sidebar-section-title {
-            font-size: 0.75rem;
-            text-transform: uppercase;
-            letter-spacing: 0.1em;
-            color: var(--accent-primary);
-            font-weight: 800;
-            margin-bottom: 1.25rem;
+        /* Filter Controls */
+        .filter-bar {
+            height: 64px;
+            background: rgba(255, 255, 255, 0.01);
+            border-top: 1px solid rgba(255, 255, 255, 0.03);
             display: flex;
             align-items: center;
-            gap: 10px;
+            padding: 0 2.5rem;
         }
 
-        .sidebar-section-title::after {
-            content: '';
-            flex: 1;
-            height: 1px;
-            background: linear-gradient(to right, rgba(139, 92, 246, 0.2), transparent);
-        }
-
-        .sidebar-controls {
+        .filter-group {
             display: flex;
-            flex-direction: column;
-            gap: 1.5rem;
-            margin-bottom: 2.5rem;
-            background: rgba(255, 255, 255, 0.02);
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            border-radius: 20px;
-            padding: 1.25rem;
-        }
-
-        .sidebar-control-group {
-            display: flex;
-            flex-direction: column;
-            gap: 0.5rem;
-        }
-
-        .sidebar-control-group label {
-            font-size: 0.65rem;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-            color: #64748b;
-        }
-
-        .sidebar-lang {
-            height: 40px !important;
-            background: rgba(0, 0, 0, 0.2) !important;
-        }
-
-        .sidebar-select select {
-            background: rgba(0, 0, 0, 0.2) !important;
-            border-radius: 12px !important;
-            font-size: 0.85rem !important;
-        }
-
-        .sidebar-divider {
-            height: 1px;
-            background: linear-gradient(to right, transparent, rgba(255, 255, 255, 0.05), transparent);
-            margin: 2rem 0;
-        }
-
-        /* Checklist & Actions Refinement */
-        .cat-check-actions {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 10px;
-            margin-bottom: 1rem;
-        }
-
-        .cat-check-btn {
-            height: 36px;
-            border-radius: 10px;
-            background: rgba(255, 255, 255, 0.03);
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            color: var(--text-main);
-            font-size: 0.75rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.2s;
-        }
-
-        .cat-check-btn:hover {
-            background: rgba(255, 255, 255, 0.06);
-            border-color: rgba(255, 255, 255, 0.1);
-        }
-
-        .cat-checklist {
-            display: flex;
-            flex-direction: column;
-            gap: 6px;
-            max-height: 300px;
-            overflow-y: auto;
-            padding-right: 8px;
-            margin-bottom: 2rem;
-        }
-        
-        .cat-checklist::-webkit-scrollbar { width: 4px; }
-        .cat-checklist::-webkit-scrollbar-thumb { background: rgba(255, 255, 255, 0.1); border-radius: 10px; }
-
-        .cat-item {
-            display: flex;
+            gap: 1rem;
+            max-width: 650px; /* Constrain width for premium grouping */
+            width: 100%;
+            margin: 0 auto;
             align-items: center;
-            gap: 10px;
-            padding: 8px 12px;
-            border-radius: 10px;
-            background: rgba(255, 255, 255, 0.02);
-            border: 1px solid transparent;
-            cursor: pointer;
-            transition: all 0.2s;
-        }
-
-        .cat-item:hover {
-            background: rgba(255, 255, 255, 0.04);
-            border-color: rgba(255, 255, 255, 0.05);
-        }
-
-        .cat-item.active {
-            background: rgba(139, 92, 246, 0.1);
-            border-color: rgba(139, 92, 246, 0.2);
         }
 
         .select-pill {
@@ -773,7 +642,7 @@
             appearance: none;
             border-radius: 14px;
             padding: 0 40px 0 42px;
-            font-size: 0.95rem;
+            font-size: 0.85rem;
             font-weight: 600;
             background: rgba(255, 255, 255, 0.04);
             border: 1px solid rgba(255, 255, 255, 0.08);
@@ -807,9 +676,9 @@
         }
 
         .random-btn-pill {
-            width: 44px;
-            height: 44px;
-            border-radius: 12px;
+            width: 42px;
+            height: 42px;
+            border-radius: 14px;
             background: rgba(139, 92, 246, 0.15);
             border: 1px solid rgba(139, 92, 246, 0.3);
             color: var(--accent-primary);
@@ -826,10 +695,6 @@
             color: white;
             transform: scale(1.05) rotate(10deg);
             box-shadow: 0 0 20px var(--accent-glow);
-        }
-
-        .header-random {
-            margin-right: 8px;
         }
 
         .icon-btn {
@@ -1270,43 +1135,38 @@
             }
 
             .lang-switcher {
-                height: 44px;
-                padding: 3px;
+                height: 36px;
+                padding: 2px;
             }
             
             .lang-btn {
-                padding: 0 14px;
-                font-size: 0.9rem;
+                padding: 0 10px;
+                font-size: 0.7rem;
             }
 
             .mode-switcher {
                 margin: 0;
                 border-radius: 99px;
-                padding: 4px;
+                padding: 3px;
                 flex: 1;
-                max-width: 240px;
-                height: 46px;
+                max-width: 220px;
+                height: 38px;
             }
             
             .mode-btn {
-                padding: 0 12px;
-                font-size: 0.8rem;
-                gap: 6px;
+                padding: 0 8px;
+                font-size: 0.65rem;
+                gap: 4px;
                 border-radius: 99px;
             }
             
             .mode-btn svg {
-                width: 18px;
-                height: 18px;
+                width: 14px;
+                height: 14px;
             }
             
             .mode-text {
-                display: block;
-            }
-
-            .icon-btn {
-                width: 46px;
-                height: 46px;
+                display: block; /* Keep text, it's important */
             }
 
             .filter-bar {
@@ -1319,7 +1179,7 @@
 
             .select-pill select {
                 padding: 0 25px 0 32px;
-                font-size: 0.85rem;
+                font-size: 0.75rem;
             }
 
             .flashcard {
@@ -1542,53 +1402,13 @@
             </div>
             <button class="btn-reset" onclick="resetProgress()">&#8635; Reset progress</button>
         </div>
-        <div class="sidebar-section-title" id="sidebar-settings-title">Control Center</div>
-        <div class="sidebar-controls">
-            <div class="sidebar-control-group">
-                <label id="sidebar-lang-label">Language</label>
-                <div class="lang-switcher sidebar-lang">
-                    <button id="lang-ru" class="lang-btn active" onclick="setLanguage('ru')">RU</button>
-                    <button id="lang-en" class="lang-btn" onclick="setLanguage('en')">EN</button>
-                </div>
-            </div>
-
-            <div class="sidebar-control-group">
-                <label id="sidebar-topic-label">Topic</label>
-                <div class="select-pill sidebar-select">
-                    <div class="select-icon">
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
-                    </div>
-                    <select id="cat" onchange="filterQuestions()">
-                        <option value="all">All Topics</option>
-                    </select>
-                </div>
-            </div>
-
-            <div class="sidebar-control-group">
-                <label id="sidebar-level-label">Grade Level</label>
-                <div class="select-pill sidebar-select">
-                    <div class="select-icon">
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20V10M18 20V4M6 20v-4"></path></svg>
-                    </div>
-                    <select id="grade" onchange="filterQuestions()">
-                        <option value="all">All Grades</option>
-                        <option value="junior">Junior</option>
-                        <option value="middle">Middle</option>
-                        <option value="senior">Senior</option>
-                    </select>
-                </div>
-            </div>
-        </div>
-
-        <div class="sidebar-divider"></div>
-
-        <div class="sidebar-section-title" id="sidebar-filter-title">Filter by Category</div>
+        <div class="sidebar-section-title">Filter by Category</div>
         <div class="cat-check-actions">
-            <button class="cat-check-btn" onclick="selectAllCats(true)" id="btn-all">All</button>
-            <button class="cat-check-btn" onclick="selectAllCats(false)" id="btn-none">None</button>
+            <button class="cat-check-btn" onclick="selectAllCats(true)">All</button>
+            <button class="cat-check-btn" onclick="selectAllCats(false)">None</button>
         </div>
         <div class="cat-checklist" id="cat-checklist"></div>
-        <div class="sidebar-section-title" style="margin-top:1.5rem" id="sidebar-stats-title">Stats by Category</div>
+        <div class="sidebar-section-title" style="margin-top:1.5rem">Stats by Category</div>
         <div class="stats-list" id="stats-container"></div>
     </div>
 
@@ -1596,19 +1416,7 @@
         <div class="navbar-inner">
             <div class="nav-left">
                 <div class="logo">
-                    <div class="logo-icon">
-                        <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
-                          <rect width="32" height="32" rx="8" fill="#030305"/>
-                          <path d="M8 10V22H14" stroke="url(#favicon-grad)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
-                          <path d="M16 22L22 10L28 22M18 18H26" stroke="url(#favicon-grad)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
-                          <defs>
-                            <linearGradient id="favicon-grad" x1="0%" y1="0%" x2="100%" y2="100%">
-                              <stop offset="0%" stop-color="#6366f1" />
-                              <stop offset="100%" stop-color="#06b6d4" />
-                            </linearGradient>
-                          </defs>
-                        </svg>
-                    </div>
+                    <div class="logo-icon">DS</div>
                     <span class="logo-text">Interview Mastery</span>
                 </div>
             </div>
@@ -1623,11 +1431,40 @@
             </div>
 
             <div class="nav-right">
-                <button class="random-btn-pill header-random" onclick="randomQuestion()" title="Randomizer">
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><circle cx="8.5" cy="8.5" r="1.5"></circle><circle cx="15.5" cy="15.5" r="1.5"></circle><circle cx="15.5" cy="8.5" r="1.5"></circle><circle cx="8.5" cy="15.5" r="1.5"></circle><circle cx="12" cy="12" r="1.5"></circle></svg>
+                <div class="lang-switcher">
+                    <button id="lang-ru" class="lang-btn active" onclick="setLanguage('ru')">RU</button>
+                    <button id="lang-en" class="lang-btn" onclick="setLanguage('en')">EN</button>
+                </div>
+                <button class="icon-btn" onclick="toggleMenu()" title="Statistics & Categories">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
                 </button>
-                <button class="icon-btn" onclick="toggleMenu()" title="Control Center & Stats">
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+            </div>
+        </div>
+        <div class="filter-bar">
+            <div class="filter-group">
+                <div class="select-pill">
+                    <div class="select-icon">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
+                    </div>
+                    <select id="cat" onchange="filterQuestions()">
+                        <option value="all">All Topics</option>
+                    </select>
+                </div>
+
+                <div class="select-pill">
+                    <div class="select-icon">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20V10M18 20V4M6 20v-4"></path></svg>
+                    </div>
+                    <select id="grade" onchange="filterQuestions()">
+                        <option value="all">All Grades</option>
+                        <option value="junior">Junior</option>
+                        <option value="middle">Middle</option>
+                        <option value="senior">Senior</option>
+                    </select>
+                </div>
+                
+                <button class="random-btn-pill" onclick="randomQuestion()" title="Randomizer">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><circle cx="8.5" cy="8.5" r="1.5"></circle><circle cx="15.5" cy="15.5" r="1.5"></circle><circle cx="15.5" cy="8.5" r="1.5"></circle><circle cx="8.5" cy="15.5" r="1.5"></circle><circle cx="12" cy="12" r="1.5"></circle></svg>
                 </button>
             </div>
         </div>
@@ -28535,7 +28372,7 @@
             ru: {
                 showAnswer: 'Показать ответ',
                 hideAnswer: 'Скрыть ответ',
-                statsFilters: 'Центр управления',
+                statsFilters: 'Статистика и фильтры',
                 allTopics: 'Все темы',
                 allGrades: 'Все уровни',
                 dontKnow: 'Не знаю',
@@ -28546,21 +28383,12 @@
                 totalSqlTasks: 'Всего SQL задач',
                 browseTitle: 'Выбор вопроса',
                 modeQuestions: 'Вопросы',
-                modeSqlTasks: 'SQL Задачи',
-                controlCenter: 'Центр управления',
-                topic: 'Тема',
-                gradeLevel: 'Уровень',
-                language: 'Язык',
-                randomQuestion: 'Случайный вопрос',
-                all: 'Все',
-                none: 'Никто',
-                statsByCategory: 'Статистика по темам',
-                filterByCategory: 'Фильтр по категориям'
+                modeSqlTasks: 'SQL Задачи'
             },
             en: {
                 showAnswer: 'Show Answer',
                 hideAnswer: 'Hide Answer',
-                statsFilters: 'Control Center',
+                statsFilters: 'Stats & Filters',
                 allTopics: 'All Topics',
                 allGrades: 'All Grades',
                 dontKnow: "Don't know",
@@ -28571,16 +28399,7 @@
                 totalSqlTasks: 'Total SQL Tasks',
                 browseTitle: 'Select Question',
                 modeQuestions: 'Questions',
-                modeSqlTasks: 'SQL Tasks',
-                controlCenter: 'Control Center',
-                topic: 'Topic',
-                gradeLevel: 'Grade Level',
-                language: 'Language',
-                randomQuestion: 'Random Question',
-                all: 'All',
-                none: 'None',
-                statsByCategory: 'Stats by Category',
-                filterByCategory: 'Filter by Category'
+                modeSqlTasks: 'SQL Tasks'
             }
         };
 
@@ -28858,8 +28677,8 @@
 
         function updateUIStrings() {
             var t = i18n[currentLang];
-            var iconBtn = document.querySelector('.icon-btn');
-            if (iconBtn) iconBtn.title = t.controlCenter;
+            var menuBtn = document.querySelector('.menu-btn span');
+            if (menuBtn) menuBtn.textContent = t.statsFilters;
             
             var catOpt = document.querySelector('#cat option[value="all"]');
             if (catOpt) catOpt.textContent = t.allTopics;
@@ -28879,36 +28698,8 @@
             var emptyP = document.querySelector('#empty-state p');
             if (emptyP) emptyP.textContent = t.tryFilters;
             
-            var resetBtn = document.querySelector('.btn-reset');
-            if (resetBtn) resetBtn.innerHTML = '&#8635; ' + (currentLang === 'ru' ? 'Сбросить прогресс' : 'Reset progress');
-
             var globalLabel = document.getElementById('global-label');
-            if (globalLabel) globalLabel.textContent = appMode === 'sqltasks' ? t.totalSqlTasks : t.totalQuestions;
-
-            // Sidebar specific translations
-            var sideTitle = document.getElementById('sidebar-settings-title');
-            if (sideTitle) sideTitle.textContent = t.controlCenter;
-            
-            var sideLang = document.getElementById('sidebar-lang-label');
-            if (sideLang) sideLang.textContent = t.language;
-            
-            var sideTopic = document.getElementById('sidebar-topic-label');
-            if (sideTopic) sideTopic.textContent = t.topic;
-            
-            var sideLevel = document.getElementById('sidebar-level-label');
-            if (sideLevel) sideLevel.textContent = t.gradeLevel;
-            
-            var sideFilter = document.getElementById('sidebar-filter-title');
-            if (sideFilter) sideFilter.textContent = t.filterByCategory;
-            
-            var sideStats = document.getElementById('sidebar-stats-title');
-            if (sideStats) sideStats.textContent = t.statsByCategory;
-            
-            var btnAll = document.getElementById('btn-all');
-            if (btnAll) btnAll.textContent = t.all;
-            
-            var btnNone = document.getElementById('btn-none');
-            if (btnNone) btnNone.textContent = t.none;
+            if (globalLabel) globalLabel.textContent = (appMode === 'sqltasks') ? t.totalSqlTasks : t.totalQuestions;
 
             var browserTitle = document.getElementById('browser-title');
             if (browserTitle) browserTitle.textContent = t.browseTitle;
